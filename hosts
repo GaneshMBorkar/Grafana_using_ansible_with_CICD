@@ -1,0 +1,2 @@
+[grafana_servers]
+10.150.244.101 ansible_user=gborkar
