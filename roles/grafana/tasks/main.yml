@@ -1,0 +1,4 @@
+---
+- name: Run Redhat play if it Redhat
+  include: Redhat.yml
+  when: (ansible_os_family == 'RedHat') or (ansible_distribution == 'Fedora')
