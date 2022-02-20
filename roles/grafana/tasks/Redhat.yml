@@ -1,0 +1,32 @@
+---
+- name: Install grafana repository in the remote server
+  yum_repository:
+    name: grafana
+    description: grafana YUM repo
+    baseurl:  https://packages.grafana.com/oss/rpm
+    gpgcheck: 1
+    gpgkey: https://packages.grafana.com/gpg.key
+  become: yes
+  register: yum_repo_installed
+  when:
+    - ansible_os_family == "RedHat" or ansible_distribution == "Fedora"
+
+- name: "Do a yum clean"
+  shell: yum clean all
+  args:
+    warn: False
+  become: yes
+  when:
+    - ansible_os_family == "RedHat" or ansible_distribution == "Fedora"
+    - yum_repo_installed.changed
+
+
+- name: "Ensure grafana is there if not install"
+  yum:
+   name: grafana
+   disablerepo: endpoint
+   state: present
+  become: yes
+  when:
+    - ansible_os_family == "RedHat" or ansible_distribution == "Fedora"
+  notify: restart grafana server
