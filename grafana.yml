@@ -1,0 +1,6 @@
+---
+- hosts: grafana_servers
+  gather_facts: yes
+  gather_timeout: 10
+  roles:
+    - grafana
